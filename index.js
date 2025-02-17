@@ -1,10 +1,10 @@
 "use strict";
 
 const mockData = require("./mockData.js").data;
-// using npm install prompt-sync to prompt user for input with node index.js
+// Using npm install prompt-sync to prompt user for input with node index.js
 const prompt = require("prompt-sync")();
 
-// empty user profile to store the answers to.
+// Empty user profile to store the answers to.
 const userProfile = {
   first_name: "",
   last_name: "",
@@ -33,7 +33,7 @@ let i = 0;
 while (i < questions.length) {
   const answer = prompt(questions[i]);
 
-  // checks for no empty strings and only letters for first and last name
+  // Checks for no empty strings and only letters for first and last name
   if (i === 0 && (answer.trim() === "" || !/^[a-zA-Z]+$/.test(answer))) {
     console.log("Please enter a valid first name with letters only.");
     continue;
@@ -41,7 +41,7 @@ while (i < questions.length) {
     console.log("Please enter a valid last name with letters only.");
     continue;
 
-    // checks for numbers and age 18 or older
+    // Checks for numbers and age 18 or older
   } else if (i === 2 && (isNaN(Number(answer)) || Number(answer) < 18)) {
     console.log("Please enter a valid age (18 or older).");
     continue;
@@ -52,7 +52,7 @@ while (i < questions.length) {
     console.log("Please enter a valid maximum age interest (18 or older).");
     continue;
 
-    // checks for M, F, or X input in uppercase
+    // Checks for M, F, or X input in uppercase
   } else if (i === 3 && !["M", "F", "X"].includes(answer.toUpperCase())) {
     console.log("Please enter M, F, or X for gender.");
     continue;
@@ -60,22 +60,24 @@ while (i < questions.length) {
     console.log("Please enter M, F, or X for gender interest.");
     continue;
 
-    // checks for the correct input for location, rural or city
+    // Checks for the correct input for location, rural or city
   } else if (i === 5 && !["rural", "city"].includes(answer)) {
     console.log("Please enter rural or city for your location.");
     continue;
   }
 
-  // stores the answers to the userProfile object
+  // stores the answers to the userProfile object in one go instead of separately per question prompt = cleaner code and easier to read
   userProfile[Object.keys(userProfile)[i]] = answer;
   i++;
 }
 
-// Additional check for max age interest being higher than min age interest
+// Additional check for max age interest being higher than min age interest after storing answers to userProfile object
+// This check could be added to the while loop as another if else, if the answers were stored separately with each question prompt
 if (userProfile.max_age_interest < userProfile.min_age_interest) {
   console.log(
     "Your maximum age interest is lower than your minimum age interest."
   );
+  // Ends the loop here to avoid it continuing to loop infinitely
   process.exit();
 }
 
